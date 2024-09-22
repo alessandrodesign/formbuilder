@@ -8,11 +8,11 @@ jobs:
     strategy:
       matrix:
         php-version: [8.3]
-        test_number: [1, 2]  # Adicionando a matriz para execução paralela
+        test_number: [1, 2]  # Para execução paralela
     steps:
       # Checkout do código
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.5.0  # Usando a versão atualizada
 
       # Configurar a versão do PHP
       - name: Setup PHP ${{ matrix.php-version }}
@@ -35,7 +35,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}  # Token do GitHub
           flag-name: run-${{ join(matrix.test_number, '-') }}  # Identificador único
-          parallel: true  # Habilita a execução paralela
+          parallel: true  # Habilitar a execução paralela
 
   finish:
     needs: test
