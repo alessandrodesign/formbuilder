@@ -1,0 +1,48 @@
+name: CI - Testes e Cobertura de Código
+
+on: ["push", "pull_request"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: [8.3]
+    steps:
+      # Checkout do código
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Configurar a versão do PHP
+      - name: Setup PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: xdebug # Para habilitar a cobertura de código
+
+      # Instalar dependências do Composer
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      # Rodar os testes
+      - name: Run Tests
+        run: vendor/bin/phpunit --coverage-clover=coverage.xml
+
+      # Enviar cobertura ao Coveralls
+      - name: Upload to Coveralls
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel: true
+          path-to-lcov: ./coverage.xml
+
+  finish:
+    needs: test
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      # Finalizar envio ao Coveralls
+      - name: Finalize Coveralls
+        uses: coverallsapp/github-action@v2
+        with:
+          parallel-finished: true
