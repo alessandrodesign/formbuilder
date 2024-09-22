@@ -13,4 +13,7 @@ $form = Form::create(
     EnctypeEnum::MultipartFormData
 );
 
-dd($form->render());
+try {
+    echo $form->render();
+} catch (DOMException $e) {
+}
