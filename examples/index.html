@@ -1,0 +1,35 @@
+<form name="formTeste" method="post" action="https://localhost:8080/post" enctype="multipart/form-data" class="row g-3">
+<div class="col-md-12"><div class="input-group">
+<label for="teste1" class="form-label">Teste 1</label><input type="text" name="teste1" placeholder="testestets" id="teste1" class="form-control">
+</div></div>
+<div class="col-md-12">
+<label for="teste2" class="form-label">Teste 2</label><input type="radio" name="teste2[]" value="valor1" checked id="teste2_0" class="form-control"><input type="radio" name="teste2[]" value="valor1" id="teste2_1" class="form-control">
+</div>
+<div class="col-md-12">
+<label for="teste3_label" class="form-label">Teste 3</label><label for="teste3_0">Valor 1</label><input type="checkbox" name="teste3[]" value="valor2" id="teste3_0" class="form-control"><label for="teste3_1">Valor 2</label><input type="checkbox" name="teste3[]" value="valor2" checked id="teste3_1" class="form-control"><label for="teste3_2">Valor 3</label><input type="checkbox" name="teste3[]" value="valor2" id="teste3_2" class="form-control">
+</div>
+<div class="col-md-12">
+<label for="teste4" class="form-label">Teste 4</label><input type="file" name="teste4" id="teste4" class="form-control">
+</div>
+<div class="col-md-12">
+<label for="teste5" class="form-label">Teste 5 Select</label><select name="teste5" class="form-control" id="teste5"><optgroup label="Grupo 1">
+<option value="valor1">valor 1</option>
+<option value="valor2">valor 2</option>
+<option value="valor3">valor 3</option>
+<option value="valor4">valor 4</option>
+</optgroup>
+<optgroup label="Grupo 2">
+<option value="valor5">valor 5</option>
+<option value="valor6" selected>valor 6</option>
+<option value="valor7">valor 7</option>
+<option value="valor8">valor 8</option>
+</optgroup></select>
+</div>
+<div class="col-md-12">
+<label for="teste6" class="form-label">Teste 6 Select</label><select name="teste6" class="form-select" id="teste6"><option value="valor1">valor 1</option>
+<option value="valor2" selected>valor 2</option>
+<option value="valor3">valor 3</option>
+<option value="valor4">valor 4</option></select>
+</div>
+<button name="send" type="submit" class="btn btn-them" id="send">send</button>
+</form>
