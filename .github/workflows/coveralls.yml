@@ -28,8 +28,8 @@ jobs:
       - name: Run test suite
         run: composer run-script test
 
-      # Rodar os testes
-      - name: Run test suite
+      # Rodar os testes coverage
+      - name: Run test suite coverage
         run: composer run-script test-coverage
 
       # Enviar cobertura ao Coveralls
