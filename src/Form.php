@@ -20,14 +20,20 @@ use AlessandroDesign\FormBuilder\Enums\TargetEnum;
 use AlessandroDesign\FormBuilder\Traits\FormEventsTrait;
 use AlessandroDesign\FormBuilder\Traits\HTMLGlobalAttributesTrait;
 use AlessandroDesign\FormBuilder\Traits\SupportFormTrait;
+use AlessandroDesign\FormBuilder\Utils\Security\CsrfTokenManager;
+use AlessandroDesign\FormBuilder\Utils\Session\SessionCache;
 use DOMDocument;
 use DOMElement;
 use DOMException;
+use Psr\SimpleCache\CacheInterface;
+use Psr\SimpleCache\InvalidArgumentException;
+use Random\RandomException;
 
 class Form
 {
     use HTMLGlobalAttributesTrait, FormEventsTrait, SupportFormTrait;
 
+    private const string csrf_token = 'csrf_token_alessandrodesign';
     private DOMDocument $dom;
     private DOMElement $form;
     private int|string $elementIndex = 0;
@@ -97,6 +103,36 @@ class Form
     ): self
     {
         return new self($name, $method, $action, $enctype, $target, $acceptCharset, $autocomplete, $novalidate, $rel);
+    }
+
+    public static function sess(CacheInterface|null $cache = null): CsrfTokenManager
+    {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+
+        $sessionCache = $cache ?? new SessionCache();
+        return new CsrfTokenManager($sessionCache, self::csrf_token);
+    }
+
+    /**
+     * @throws RandomException
+     * @throws InvalidArgumentException
+     */
+    public function useToken(): self
+    {
+        // Obter token CSRF
+        $this->inputHidden(self::csrf_token, self::csrf_token, self::sess()->getToken());
+        return $this;
+    }
+
+    /**
+     * @throws RandomException
+     * @throws InvalidArgumentException
+     */
+    public static function validateToken(string|null $token = null): bool
+    {
+        return self::sess()->validateToken($token ?? ($_POST[self::csrf_token] ?? ''));
     }
 
     public function getName(): ?string
@@ -344,7 +380,6 @@ class Form
 
     public function inputHidden(
         string|null $id = null,
-        string|null $class = null,
         string|null $name = null,
         string|null $value = null,
         array       $attributes = null
@@ -355,7 +390,7 @@ class Form
             'name' => $name,
             'value' => $value,
         ]);
-        $this->input(...$attributes)->setId($id)->setClass($class)->populateAttributes($attributes);
+        $this->input(...$attributes)->setId($id)->populateAttributes($attributes);
         return $this;
     }
 
@@ -826,7 +861,7 @@ class Form
     }
 
     private function input(
-        Label|null                          $label,
+        Label|null                          $label = null,
         InputTypeEnum|string                $type = InputTypeEnum::TEXT,
         string|null                         $name = null,
         string|null                         $value = null,
