@@ -1,5 +1,16 @@
 # FormBuilder
 
+[![Latest Stable Version](https://poser.pugx.org/alessandrodesign/formbuilder/v/stable)](https://packagist.org/packages/alessandrodesign/formbuilder)
+[![License](https://poser.pugx.org/alessandrodesign/formbuilder/license)](https://packagist.org/packages/alessandrodesign/formbuilder)
+[![Build Status](https://github.com/alessandrodesign/formbuilder/actions/workflows/php.yml/badge.svg)](https://github.com/alessandrodesign/formbuilder/actions)
+[![Total Downloads](https://poser.pugx.org/alessandrodesign/formbuilder/downloads)](https://packagist.org/packages/alessandrodesign/formbuilder)
+[![Coverage Status](https://coveralls.io/repos/github/alessandrodesign/formbuilder/badge.svg?branch=main)](https://coveralls.io/github/alessandrodesign/formbuilder?branch=main)
+[![PHP Version](https://img.shields.io/packagist/php-v/alessandrodesign/formbuilder)](https://packagist.org/packages/alessandrodesign/formbuilder)
+[![Composer Support](https://img.shields.io/packagist/dt/alessandrodesign/formbuilder)](https://packagist.org/packages/alessandrodesign/formbuilder)
+[![Last Commit](https://img.shields.io/github/last-commit/alessandrodesign/formbuilder)](https://github.com/alessandrodesign/formbuilder/commits)
+[![Code Quality](https://img.shields.io/scrutinizer/g/alessandrodesign/formbuilder.svg)](https://scrutinizer-ci.com/g/alessandrodesign/formbuilder)
+[![Open Issues](https://img.shields.io/github/issues/alessandrodesign/formbuilder.svg)](https://github.com/alessandrodesign/formbuilder/issues)
+
 FormBuilder é uma interface poderosa e flexível para criação de formulários HTML no PHP, com suporte para tokens CSRF e várias opções de personalização. Este pacote visa facilitar a construção de formulários seguros e escaláveis para desenvolvedores PHP.
 
 ## Requisitos
