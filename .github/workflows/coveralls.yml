@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         php-version: [8.3]
-        test_number: [1, 2]  # Para execução paralela
+        test_number: [1]  # Para execução paralela
     steps:
       # Checkout do código
       - name: Checkout code
@@ -47,4 +47,4 @@ jobs:
         uses: coverallsapp/github-action@v2
         with:
           parallel-finished: true  # Indica que todos os jobs paralelos terminaram
-          carryforward: "run-1,run-2"  # Transfere resultados das execuções paralelas
+          carryforward: "run-1"  # Transfere resultados das execuções paralelas
