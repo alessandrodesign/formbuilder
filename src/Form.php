@@ -33,7 +33,7 @@ class Form
 {
     use HTMLGlobalAttributesTrait, FormEventsTrait, SupportFormTrait;
 
-    private const string csrf_token = 'csrf_token_alessandrodesign';
+    public const string csrf_token = 'csrf_token_alessandrodesign';
     private DOMDocument $dom;
     private DOMElement $form;
     private int|string $elementIndex = 0;
@@ -113,6 +113,15 @@ class Form
 
         $sessionCache = $cache ?? new SessionCache();
         return new CsrfTokenManager($sessionCache, self::csrf_token);
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     * @throws RandomException
+     */
+    public static function generateToken(): string
+    {
+        return self::sess()->getToken();
     }
 
     /**
