@@ -27,7 +27,7 @@ jobs:
 
       # Rodar os testes em paralelo
       - name: Run test suite ${{ matrix.test_number }}
-        run: composer run-script test-coverage-${{ matrix.test_number }}
+        run: composer run-script test-coverage
 
       # Enviar cobertura ao Coveralls
       - name: Upload to Coveralls
