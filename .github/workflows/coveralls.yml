@@ -11,7 +11,7 @@ jobs:
     steps:
       # Checkout do código
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3  # Mantenha esta linha, pois v3 já está atualizado
 
       # Configurar a versão do PHP
       - name: Setup PHP ${{ matrix.php-version }}
