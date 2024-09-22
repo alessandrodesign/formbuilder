@@ -1,19 +1,36 @@
 # FormBuilder
 
-Interface de criação de formulário com token CSRF
+FormBuilder é uma interface poderosa e flexível para criação de formulários HTML no PHP, com suporte para tokens CSRF e várias opções de personalização. Este pacote visa facilitar a construção de formulários seguros e escaláveis para desenvolvedores PHP.
 
-### Como usar:
+## Requisitos
+
+- PHP >= 8.3
+- Composer
+
+## Instalação
+
+Para instalar o pacote, utilize o Composer:
+
+```bash
+composer require alessandrodesign/formbuilder
+```
+
+## Exemplos de Uso
+
+### Criação de Formulário
+
+Você pode criar instâncias de formulário de duas maneiras: diretamente pela classe ou utilizando o método estático `create`.
+
+#### Instância Tradicional
 
 ```php
-// Instanciando formálio
-
 <?php
 
 use AlessandroDesign\FormBuilder\Enums\EnctypeEnum;
 use AlessandroDesign\FormBuilder\Enums\MethodEnum;
 use AlessandroDesign\FormBuilder\Form;
 
-require './vendor/autoload.php'
+require './vendor/autoload.php';
 
 $form = new Form(
     'formTeste',
@@ -23,7 +40,7 @@ $form = new Form(
 );
 ```
 
-- ouinstancia via método estático
+#### Instância com Método Estático
 
 ```php
 <?php
@@ -32,7 +49,7 @@ use AlessandroDesign\FormBuilder\Enums\EnctypeEnum;
 use AlessandroDesign\FormBuilder\Enums\MethodEnum;
 use AlessandroDesign\FormBuilder\Form;
 
-require './vendor/autoload.php'
+require './vendor/autoload.php';
 
 $form = Form::create(
     'formTeste',
@@ -42,258 +59,133 @@ $form = Form::create(
 );
 ```
 
-### Renderizando formulário para html
+### Renderização do Formulário
+
+Você pode renderizar o formulário diretamente usando o método `render` ou utilizando o método mágico `__toString()`.
+
+#### Método `render`
 
 ```php
 <?php
 
-use AlessandroDesign\FormBuilder\Enums\EnctypeEnum;
-use AlessandroDesign\FormBuilder\Enums\MethodEnum;
+require './vendor/autoload.php';
+
+echo $form->render();
+```
+
+#### Método `__toString()`
+
+```php
+<?php
+
+require './vendor/autoload.php';
+
+echo $form;
+```
+
+### Estrutura do Formulário
+
+Abaixo está um exemplo completo de como estruturar um formulário com diferentes tipos de campos.
+
+```php
+<?php
+
 use AlessandroDesign\FormBuilder\Form;
 
-require './vendor/autoload.php'
-
-$form = Form::create(
-    'formTeste',
-    MethodEnum::POST,
-    'https://localhost:8080/post',
-    EnctypeEnum::MultipartFormData
-);
+require './vendor/autoload.php';
 
 try {
+    $form = Form::create(
+        'formTeste',
+        MethodEnum::POST,
+        'https://localhost:8080/post',
+        EnctypeEnum::MultipartFormData
+    )->setClass('row g-3');
+
+    // Adiciona campos de texto, radio, checkbox e arquivos
+    $form->inputText('Nome', 'nome', placeholder: 'Digite seu nome')
+        ->addClassElement('form-control')
+        ->addParent('col-md-6', 'input-group');
+
+    $form->inputRadio('Gênero', 'genero', options: ['Masculino', 'Feminino'])
+        ->addClassElement('form-check-input')
+        ->addParent('col-md-6', 'input-group');
+
+    $form->inputCheckbox('Preferências', 'preferencias', options: ['Opção 1', 'Opção 2'])
+        ->addClassElement('form-check-input')
+        ->addParent('col-md-6', 'input-group');
+
+    $form->inputFile('Anexar Arquivo', 'anexo')
+        ->addClassElement('form-control')
+        ->addParent('col-md-12', 'input-group');
+
     echo $form->render();
 } catch (DOMException $e) {
+    echo $e->getMessage();
 }
 ```
 
-- ou utilizando `__toString()` com método estático
+### Uso de Select
+
+O campo select suporta a adição de opções com ou sem grupos.
 
 ```php
 <?php
 
-use AlessandroDesign\FormBuilder\Enums\EnctypeEnum;
-use AlessandroDesign\FormBuilder\Enums\MethodEnum;
 use AlessandroDesign\FormBuilder\Form;
 
-require './vendor/autoload.php'
-
-echo Form::create(
-    'formTeste',
+$form = Form::create(
+    'formSelect',
     MethodEnum::POST,
-    'https://localhost:8080/post',
-    EnctypeEnum::MultipartFormData
+    'https://localhost:8080/post'
 );
+
+$form->select('Escolha uma opção', 'opcao')
+    ->addOptions([
+        'Grupo 1' => ['valor1' => 'Opção 1', 'valor2' => 'Opção 2'],
+        'Grupo 2' => ['valor3' => 'Opção 3', 'valor4' => 'Opção 4']
+    ])
+    ->addClassElement('form-select')
+    ->addParent('col-md-12');
+
+echo $form->render();
 ```
 
-### Estrutura do formulário
+### Uso de Botões
+
+Adicione botões de envio ao final do formulário.
 
 ```php
 <?php
 
-use AlessandroDesign\FormBuilder\Enums\EnctypeEnum;
-use AlessandroDesign\FormBuilder\Enums\MethodEnum;
-use AlessandroDesign\FormBuilder\Form;
-
-require './vendor/autoload.php'
-
-try {
-    $form = Form::create(
-        'formTeste',
-        MethodEnum::POST,
-        'https://localhost:8080/post',
-        EnctypeEnum::MultipartFormData
-    );
-
-    $form->inputText('Teste 1', 'teste1', name: 'teste1', placeholder: 'testestets')
-        ->addClassLabel('form-label')
-        ->addClassElement('form-control')
-        ->addParent('col-md-12', 'input-group');
-
-    $form->inputRadio('Teste 2', 'teste2', name: 'teste2', value: null, options: ['valor1', 'valor2'])
-        ->addClassLabel('form-label')
-        ->addClassElement('form-control')
-        ->addParent('col-md-12');
-
-    $form->inputCheckbox('Teste 3', 'teste3', name: 'teste3', value: null, options: ['Valor 1' => 'valor1', 'Valor 2' => 'valor2', 'Valor 3' => 'valor3'])
-        ->addClassLabel('form-label')
-        ->addClassElement('form-control')
-        ->addParent('col-md-12');
-
-    $form->inputFile('Teste 4', 'teste4', name: 'teste4')
-        ->addClassLabel('form-label')
-        ->addClassElement('form-control')
-        ->addParent('col-md-12');
-
-    $response = $form->render();
-} catch (DOMException $e) {
-    $response = $e->getMessage();
-}
-
-echo $response;
+$form->button('Enviar', 'submit', 'btn btn-primary', 'Enviar');
+echo $form->render();
 ```
 
-- Uso do select
+### Segurança com Token CSRF
+
+O FormBuilder inclui suporte para proteção CSRF. Para ativar essa funcionalidade, use o método `useToken()`.
+
+#### Definindo Token
 
 ```php
-<?php
-
-use AlessandroDesign\FormBuilder\Enums\EnctypeEnum;
-use AlessandroDesign\FormBuilder\Enums\MethodEnum;
-use AlessandroDesign\FormBuilder\Form;
-
-require './vendor/autoload.php'
-
-try {
-    $form = Form::create(
-        'formTeste',
-        MethodEnum::POST,
-        'https://localhost:8080/post',
-        EnctypeEnum::MultipartFormData
-    );
-
-    $form->inputText('Teste 1', 'teste1', name: 'teste1', placeholder: 'testestets')
-        ->addClassLabel('form-label')
-        ->addClassElement('form-control')
-        ->addParent('col-md-12', 'input-group');
-
-    $form->inputRadio('Teste 2', 'teste2', name: 'teste2', value: 'valor1', options: ['valor1', 'valor2'])
-        ->addClassLabel('form-label')
-        ->addClassElement('form-control')
-        ->addParent('col-md-12');
-
-    $form->inputCheckbox('Teste 3', 'teste3', name: 'teste3', value: 'valor2', options: ['Valor 1' => 'valor1', 'Valor 2' => 'valor2', 'Valor 3' => 'valor3'])
-        ->addClassLabel('form-label')
-        ->addClassElement('form-control')
-        ->addParent('col-md-12');
-
-    $form->inputFile('Teste 4', 'teste4', name: 'teste4')
-        ->addClassLabel('form-label')
-        ->addClassElement('form-control')
-        ->addParent('col-md-12');
-
-    $form->select('Teste 5 Select', 'teste5', 'form-select', 'teste5', 'valor6')
-        ->addOptions([
-            'Grupo 1' => [
-                'valor1' => 'valor 1',
-                'valor2' => 'valor 2',
-                'valor3' => 'valor 3',
-                'valor4' => 'valor 4',
-            ],
-            'Grupo 2' => [
-                'valor5' => 'valor 5',
-                'valor6' => 'valor 6',
-                'valor7' => 'valor 7',
-                'valor8' => 'valor 8',
-            ],
-        ])
-        ->addClassLabel('form-label')
-        ->addClassElement('form-control')
-        ->addParent('col-md-12');
-
-    $form->select('Teste 6 Select', 'teste6', 'form-select', 'teste6', 'valor2')
-        ->addOptions([
-            'valor1' => 'valor 1',
-            'valor2' => 'valor 2',
-            'valor3' => 'valor 3',
-            'valor4' => 'valor 4',
-        ])
-        ->addClassLabel('form-label')
-        ->addParent('col-md-12');
-
-    $response = $form->render();
-} catch (DOMException $e) {
-    $response = $e->getMessage();
-}
-
-echo $response;
+$form->useToken();
 ```
 
-- uso de botões
+#### Validação de Token
 
 ```php
-<?php
-
-use AlessandroDesign\FormBuilder\Enums\EnctypeEnum;
-use AlessandroDesign\FormBuilder\Enums\MethodEnum;
-use AlessandroDesign\FormBuilder\Form;
-
-require './vendor/autoload.php'
-
-try {
-    $form = Form::create(
-        'formTeste',
-        MethodEnum::POST,
-        'https://localhost:8080/post',
-        EnctypeEnum::MultipartFormData
-    )->setClass('row g-3');
-    
-    // corpo do formulário
-
-    $form->button('send', 'send', 'btn btn-them', 'send', 'submit', false, null, null, null);
-
-    $response = $form->render();
-} catch (DOMException $e) {
-    $response = $e->getMessage();
+if (Form::validateToken()) {
+    echo 'Token válido';
+} else {
+    throw new Exception('Token inválido');
 }
-
-echo $response;
 ```
 
-### CSRF Token
+## Contribuição
 
-```php
-<?php
+Contribuições são bem-vindas! Por favor, sinta-se à vontade para enviar Pull Requests ou abrir Issues no [GitHub](https://github.com/alessandrodesign/formbuilder).
 
-use AlessandroDesign\FormBuilder\Enums\EnctypeEnum;
-use AlessandroDesign\FormBuilder\Enums\MethodEnum;
-use AlessandroDesign\FormBuilder\Form;
-use Random\RandomException;
+## Licença
 
-require './vendor/autoload.php'
-
-try {
-    $form = Form::create(
-        'formTeste',
-        MethodEnum::POST,
-        'validateToken.php',
-        EnctypeEnum::MultipartFormData
-    )->setClass('row g-3');
-
-    // define campo CSRF token
-    $form->useToken();
-
-    // Corpo do formulário
-
-    $response = $form->render();
-} catch (DOMException|\Psr\SimpleCache\InvalidArgumentException|RandomException $e) {
-    $response = $e->getMessage();
-}
-
-echo $response;
-```
-
-- validação de token
-
-```php
-<?php
-
-use AlessandroDesign\FormBuilder\Form;
-
-require './vendor/autoload.php'
-
-try {
-    if (Form::validateToken()) {
-        $response = 'Token válido';
-    } else {
-        throw new \Exception('Token inválido');
-    }
-} catch (\Psr\SimpleCache\InvalidArgumentException $e) {
-    $response = $e->getMessage();
-} catch (\Random\RandomException $e) {
-    $response = $e->getMessage();
-} catch (\Exception $e) {
-    $response = $e->getMessage();
-}
-
-echo $response;
-```
+Este projeto é licenciado sob a [MIT License](LICENSE).
