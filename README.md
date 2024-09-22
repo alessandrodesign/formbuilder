@@ -13,7 +13,7 @@ use AlessandroDesign\FormBuilder\Enums\EnctypeEnum;
 use AlessandroDesign\FormBuilder\Enums\MethodEnum;
 use AlessandroDesign\FormBuilder\Form;
 
-require_once implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), 'vendor', 'autoload.php']);
+require './vendor/autoload.php'
 
 $form = new Form(
     'formTeste',
@@ -32,7 +32,7 @@ use AlessandroDesign\FormBuilder\Enums\EnctypeEnum;
 use AlessandroDesign\FormBuilder\Enums\MethodEnum;
 use AlessandroDesign\FormBuilder\Form;
 
-require_once implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), 'vendor', 'autoload.php']);
+require './vendor/autoload.php'
 
 $form = Form::create(
     'formTeste',
@@ -51,7 +51,7 @@ use AlessandroDesign\FormBuilder\Enums\EnctypeEnum;
 use AlessandroDesign\FormBuilder\Enums\MethodEnum;
 use AlessandroDesign\FormBuilder\Form;
 
-require_once implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), 'vendor', 'autoload.php']);
+require './vendor/autoload.php'
 
 $form = Form::create(
     'formTeste',
@@ -75,7 +75,7 @@ use AlessandroDesign\FormBuilder\Enums\EnctypeEnum;
 use AlessandroDesign\FormBuilder\Enums\MethodEnum;
 use AlessandroDesign\FormBuilder\Form;
 
-require_once implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), 'vendor', 'autoload.php']);
+require './vendor/autoload.php'
 
 echo Form::create(
     'formTeste',
@@ -94,7 +94,7 @@ use AlessandroDesign\FormBuilder\Enums\EnctypeEnum;
 use AlessandroDesign\FormBuilder\Enums\MethodEnum;
 use AlessandroDesign\FormBuilder\Form;
 
-require_once implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), 'vendor', 'autoload.php']);
+require './vendor/autoload.php'
 
 try {
     $form = Form::create(
@@ -141,7 +141,7 @@ use AlessandroDesign\FormBuilder\Enums\EnctypeEnum;
 use AlessandroDesign\FormBuilder\Enums\MethodEnum;
 use AlessandroDesign\FormBuilder\Form;
 
-require_once implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), 'vendor', 'autoload.php']);
+require './vendor/autoload.php'
 
 try {
     $form = Form::create(
@@ -217,7 +217,7 @@ use AlessandroDesign\FormBuilder\Enums\EnctypeEnum;
 use AlessandroDesign\FormBuilder\Enums\MethodEnum;
 use AlessandroDesign\FormBuilder\Form;
 
-require_once implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), 'vendor', 'autoload.php']);
+require './vendor/autoload.php'
 
 try {
     $form = Form::create(
@@ -249,7 +249,7 @@ use AlessandroDesign\FormBuilder\Enums\MethodEnum;
 use AlessandroDesign\FormBuilder\Form;
 use Random\RandomException;
 
-require_once implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), 'vendor', 'autoload.php']);
+require './vendor/autoload.php'
 
 try {
     $form = Form::create(
@@ -279,7 +279,7 @@ echo $response;
 
 use AlessandroDesign\FormBuilder\Form;
 
-require_once implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), 'vendor', 'autoload.php']);
+require './vendor/autoload.php'
 
 try {
     if (Form::validateToken()) {
