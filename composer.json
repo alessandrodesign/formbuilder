@@ -27,6 +27,7 @@
     "php-coveralls/php-coveralls": "^v2.7.0"
   },
   "scripts": {
-    "test": "./vendor/bin/phpunit tests/FormBuilderTest.php --coverage-clover=coverage.xml"
+    "test": "./vendor/bin/phpunit tests",
+    "test-coverage": "./vendor/bin/phpunit --coverage-clover=coverage.xml tests"
   }
 }

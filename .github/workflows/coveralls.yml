@@ -28,6 +28,10 @@ jobs:
       - name: Run test suite
         run: composer run-script test
 
+      # Rodar os testes
+      - name: Run test suite
+        run: composer run-script test-coverage
+
       # Enviar cobertura ao Coveralls
       - name: Upload to Coveralls
         uses: coverallsapp/github-action@v2
