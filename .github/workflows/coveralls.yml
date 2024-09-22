@@ -8,37 +8,34 @@ jobs:
     strategy:
       matrix:
         php-version: [8.3]
+        test_number: [1, 2]  # Adicionando a matriz para paralelismo
     steps:
       # Checkout do código
       - name: Checkout code
-        uses: actions/checkout@v3  # Mantenha esta linha, pois v3 já está atualizado
+        uses: actions/checkout@v3  # Atualize para a versão correta
 
       # Configurar a versão do PHP
       - name: Setup PHP ${{ matrix.php-version }}
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          coverage: xdebug # Para habilitar a cobertura de código
+          coverage: xdebug  # Para habilitar a cobertura de código
 
       # Instalar dependências do Composer
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
 
-      # Rodar os testes
-      - name: Run test suite
-        run: composer run-script test
-
-      # Rodar os testes coverage
-      - name: Run test suite coverage
-        run: composer run-script test-coverage
+      # Rodar os testes em paralelo
+      - name: Run test suite ${{ matrix.test_number }}
+        run: composer run-script test-coverage-${{ matrix.test_number }}
 
       # Enviar cobertura ao Coveralls
       - name: Upload to Coveralls
         uses: coverallsapp/github-action@v2
         with:
           github-token: ${{ secrets.COVERALLS_REPO_TOKEN }}
+          flag-name: run-${{ join(matrix.test_number, '-') }}  # Para identificar a execução
           parallel: true
-          path-to-lcov: ./coverage.xml
 
   finish:
     needs: test
@@ -50,3 +47,4 @@ jobs:
         uses: coverallsapp/github-action@v2
         with:
           parallel-finished: true
+          carryforward: "run-1,run-2"  # Identificando as execuções paralelas
