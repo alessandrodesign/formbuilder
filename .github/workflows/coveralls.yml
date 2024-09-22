@@ -8,11 +8,11 @@ jobs:
     strategy:
       matrix:
         php-version: [8.3]
-        test_number: [1, 2]  # Adicionando a matriz para paralelismo
+        test_number: [1, 2]  # Adicionando a matriz para execução paralela
     steps:
       # Checkout do código
       - name: Checkout code
-        uses: actions/checkout@v3  # Atualize para a versão correta
+        uses: actions/checkout@v3
 
       # Configurar a versão do PHP
       - name: Setup PHP ${{ matrix.php-version }}
@@ -33,9 +33,9 @@ jobs:
       - name: Upload to Coveralls
         uses: coverallsapp/github-action@v2
         with:
-          github-token: ${{ secrets.COVERALLS_REPO_TOKEN }}
-          flag-name: run-${{ join(matrix.test_number, '-') }}  # Para identificar a execução
-          parallel: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}  # Token do GitHub
+          flag-name: run-${{ join(matrix.test_number, '-') }}  # Identificador único
+          parallel: true  # Habilita a execução paralela
 
   finish:
     needs: test
@@ -43,8 +43,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Finalizar envio ao Coveralls
-      - name: Finalize Coveralls
+      - name: Coveralls Finished
         uses: coverallsapp/github-action@v2
         with:
-          parallel-finished: true
-          carryforward: "run-1,run-2"  # Identificando as execuções paralelas
+          parallel-finished: true  # Indica que todos os jobs paralelos terminaram
+          carryforward: "run-1,run-2"  # Transfere resultados das execuções paralelas
