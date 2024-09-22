@@ -1,0 +1,26 @@
+{
+  "name": "alessandrodesign/formbuilder",
+  "description": "Interface de criação de formulário com token CSRF",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "AlessandroDesign\\FormBuilder\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Alessandro P Souza",
+      "email": "eu@alessandrodesign.com.br"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "php": "^8.3",
+    "ext-dom": "*",
+    "ext-intl": "*"
+  },
+  "require-dev": {
+    "symfony/var-dumper": "^7.1"
+  }
+}
